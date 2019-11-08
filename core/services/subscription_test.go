@@ -317,30 +317,31 @@ func TestServices_StartJobSubscription_RunlogNoTopicMatch(t *testing.T) {
 func TestServices_NewInitiatorSubscription_ReplayFromBlock(t *testing.T) {
 	t.Parallel()
 
-	store, cleanup := cltest.NewStore(t)
-	defer cleanup()
-
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-	txmMock := mocks.NewMockTxManager(ctrl)
-	store.TxManager = txmMock
-
 	cases := []struct {
 		name                string
 		currentHead         int
 		initrParamFromBlock *models.Big
 		wantFromBlock       *big.Int
 	}{
-		{"head < ReplayFromBlock, no initr fromBlock", 5, nil, big.NewInt(11)},
-		{"head > ReplayFromBlock, no initr fromBlock", 14, nil, big.NewInt(15)},
+		{"head < ReplayFromBlock, no initr fromBlock", 5, nil, big.NewInt(6)},
+		{"head > ReplayFromBlock, no initr fromBlock", 14, nil, big.NewInt(10)},
 		{"head < ReplayFromBlock, initr fromBlock > ReplayFromBlock", 5, models.NewBig(big.NewInt(12)), big.NewInt(12)},
-		{"head < ReplayFromBlock, initr fromBlock < ReplayFromBlock", 5, models.NewBig(big.NewInt(9)), big.NewInt(11)},
-		{"head > ReplayFromBlock, initr fromBlock > ReplayFromBlock", 14, models.NewBig(big.NewInt(12)), big.NewInt(15)},
-		{"head > ReplayFromBlock, initr fromBlock < ReplayFromBlock", 14, models.NewBig(big.NewInt(9)), big.NewInt(15)},
+		{"head < ReplayFromBlock, initr fromBlock < ReplayFromBlock", 5, models.NewBig(big.NewInt(8)), big.NewInt(8)},
+		{"head > ReplayFromBlock, initr fromBlock > ReplayFromBlock", 14, models.NewBig(big.NewInt(12)), big.NewInt(12)},
+		{"head > ReplayFromBlock, initr fromBlock < ReplayFromBlock", 14, models.NewBig(big.NewInt(8)), big.NewInt(10)},
 	}
 
 	for _, test := range cases {
+		test := test
 		t.Run(test.name, func(t *testing.T) {
+			store, cleanup := cltest.NewStore(t)
+			defer cleanup()
+
+			ctrl := gomock.NewController(t)
+			defer ctrl.Finish()
+			txmMock := mocks.NewMockTxManager(ctrl)
+			store.TxManager = txmMock
+
 			currentHead := cltest.Head(test.currentHead)
 
 			store.Config.Set(orm.EnvVarName("ReplayFromBlock"), 10)

@@ -88,8 +88,8 @@ func NewInitiatorSubscription(
 	nextHead := head.NextInt() // Exclude current block from subscription
 	if replayFromBlock := store.Config.ReplayFromBlock(); replayFromBlock >= 0 {
 		replayFromBlockBN := big.NewInt(replayFromBlock)
-		if nextHead.Cmp(replayFromBlockBN) < 0 {
-			nextHead = big.NewInt(0).Add(replayFromBlockBN, big.NewInt(1))
+		if nextHead.Cmp(replayFromBlockBN) > 0 {
+			nextHead = replayFromBlockBN
 		}
 	}
 
