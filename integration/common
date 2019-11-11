@@ -35,7 +35,7 @@ waitForResponse () {
 }
 
 launch_gethnet() {
-  printf -- "\033[34m%-50s\033[0m" "Checking for running ethereum node"
+  printf -- "\033[34m%-50s\033[0m" "Checking for running ethereum (geth) node"
   if curl -s $ETH_HTTP_URL >/dev/null; then
     printf -- "[\033[32mrunning\033[0m]\n"
     return
@@ -49,7 +49,7 @@ launch_gethnet() {
 }
 
 launch_parity() {
-  printf -- "\033[34m%-50s\033[0m" "Checking for running ethereum node"
+  printf -- "\033[34m%-50s\033[0m" "Checking for running ethereum (parity) node"
   if curl -s $ETH_HTTP_URL >/dev/null; then
     printf -- "[\033[32mrunning\033[0m]\n"
     return
@@ -111,16 +111,17 @@ launch_explorer() {
   title "Starting explorer..."
 
   yarn workspace @chainlink/explorer run build &>$SRCROOT/integration/logs/explorer-yarn.log
-  yarn workspace @chainlink/explorer run prod &>$SRCROOT/integration/logs/explorer.log & waitForResponse $explorer_url
+  yarn workspace @chainlink/explorer run prod &>$SRCROOT/integration/logs/explorer.log &
+  waitForResponse $explorer_url
   title "Explorer is running."
 }
 
 add_clnode_to_explorer() {
   title "Adding CL Node to Explorer..."
 
-  yarn workspace @chainlink/explorer admin:seed test-admin test-admin-password
+  yarn workspace @chainlink/explorer admin:seed test-admin test-admin-password &>$SRCROOT/integration/logs/admin_seed.log
   clnode_name="test-$(date +%s)"
-  response=`EXPLORER_BASE_URL=$explorer_url EXPLORER_ADMIN_USERNAME=test-admin EXPLORER_ADMIN_PASSWORD=test-admin-password yarn workspace @chainlink/explorer run admin:clnodes:add $clnode_name`
+  response=`EXPLORER_BASE_URL=$explorer_url EXPLORER_ADMIN_USERNAME=test-admin EXPLORER_ADMIN_PASSWORD=test-admin-password yarn workspace @chainlink/explorer run admin:clnodes:add $clnode_name` &>$SRCROOT/integration/logs/test-admin.log
   export EXPLORER_ACCESS_KEY=$(echo $response | grep -o "AccessKey [a-zA-Z0-9]*" | awk '{print $2}')
   export EXPLORER_SECRET=$(echo $response | grep -o "Secret [a-zA-Z0-9]*" | awk '{print $2}')
   export EXPLORER_URL="ws://localhost:8080"
@@ -129,9 +130,9 @@ add_clnode_to_explorer() {
 
 setup_scripts() {
   yarn --no-progress install &>$SRCROOT/integration/logs/yarn.log
-  yarn workspace chainlinkv0.5 build
-  yarn workspace chainlink build
-  yarn workspace @chainlink/integration-scripts setup
+  yarn workspace chainlinkv0.5 build &>$SRCROOT/integration/logs/chainlinkv05_build.log
+  yarn workspace chainlink build &>$SRCROOT/integration/logs/chainlink_build.log
+  yarn workspace @chainlink/integration-scripts setup &>$SRCROOT/integration/logs/yarn.log
 }
 
 deploy_contracts() {
