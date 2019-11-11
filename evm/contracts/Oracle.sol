@@ -411,8 +411,7 @@ contract Oracle is ChainlinkRequestInterface, OracleInterface, Ownable {
       }
   }
 
-  function burnGasToken(uint gasSpent) external {
-      require(msg.sender == owner, "Access restricted");
+  function burnGasToken(uint gasSpent) internal {
       uint256 tokens = (gasSpent + 14154) / 41130;
       gasToken.freeUpTo(tokens);
   }
