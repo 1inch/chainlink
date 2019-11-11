@@ -198,6 +198,7 @@ func addReceiptToResult(receipt *models.TxReceipt, input models.RunResult, outpu
 		output.Add("ethereumReceipts", receipts)
 	}
 
+	logger.Debugw("input for addReceiptToResult", "inputData", input.Data)
 	if err := json.Unmarshal([]byte(input.Get("ethereumReceipts").String()), &receipts); err != nil {
 		logger.Error(fmt.Errorf("EthTx Adapter unmarshaling ethereum Receipts: %v", err))
 	}
