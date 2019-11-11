@@ -94,6 +94,7 @@ contract Oracle is ChainlinkRequestInterface, OracleInterface, Ownable {
   using SafeMath for uint256;
   
   IGST2 public gasToken;
+  address public gasTokenOwner;
 
   uint256 constant public EXPIRY_TIME = 5 minutes;
   uint256 constant private MINIMUM_CONSUMER_GAS_LIMIT = 400000;
