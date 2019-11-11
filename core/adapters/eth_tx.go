@@ -194,7 +194,7 @@ var zero = common.Hash{}
 func addReceiptToResult(receipt *models.TxReceipt, input models.RunResult, output *models.RunResult) {
 	receipts := []models.TxReceipt{}
 
-	if !output.Get("ethereumReceipts").IsArray() {
+	if !input.Get("ethereumReceipts").IsArray() {
 		output.Add("ethereumReceipts", receipts)
 	}
 
