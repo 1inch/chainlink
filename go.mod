@@ -20,11 +20,11 @@ require (
 	github.com/fatih/color v1.7.0
 	github.com/garyburd/redigo v1.6.0 // indirect
 	github.com/gedex/inflector v0.0.0-20170307190818-16278e9db813 // indirect
-	github.com/gin-contrib/cors v1.3.0
+	github.com/gin-contrib/cors v1.6.0
 	github.com/gin-contrib/expvar v0.0.0-20181230111036-f23b556cc79f
 	github.com/gin-contrib/size v0.0.0-20190528085907-355431950c57
 	github.com/gin-gonic/contrib v0.0.0-20190526021735-7fb7810ed2a0
-	github.com/gin-gonic/gin v1.4.0
+	github.com/gin-gonic/gin v1.9.1
 	github.com/gobuffalo/packr v1.30.1
 	github.com/gofrs/flock v0.7.1
 	github.com/gofrs/uuid v3.2.0+incompatible
@@ -49,12 +49,13 @@ require (
 	github.com/spf13/viper v1.5.0
 	github.com/steakknife/bloomfilter v0.0.0-20180922174646-6819c0d2a570 // indirect
 	github.com/steakknife/hamming v0.0.0-20180906055917-c99c65617cd3 // indirect
-	github.com/stretchr/testify v1.4.0
+	github.com/stretchr/testify v1.8.4
 	github.com/syndtr/goleveldb v0.0.0-20190203031304-2f17a3356c66 // indirect
 	github.com/tevino/abool v0.0.0-20170917061928-9b9efcf221b5
 	github.com/tidwall/gjson v1.3.4
 	github.com/tidwall/sjson v1.0.4
-	github.com/ugorji/go/codec v1.1.7
+	github.com/ugorji/go v1.1.7 // indirect
+	github.com/ugorji/go/codec v1.2.12
 	github.com/ulule/limiter v0.0.0-20190417201358-7873d115fc4e
 	github.com/unrolled/secure v0.0.0-20190624173513-716474489ad3
 	github.com/urfave/cli v1.22.1
@@ -63,9 +64,9 @@ require (
 	go.dedis.ch/kyber/v3 v3.0.9
 	go.uber.org/multierr v1.4.0
 	go.uber.org/zap v1.12.0
-	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4
-	golang.org/x/sync v0.0.0-20190423024810-112230192c58
-	golang.org/x/text v0.3.1-0.20180807135948-17ff2d5776d2
+	golang.org/x/crypto v0.21.0
+	golang.org/x/sync v0.1.0
+	golang.org/x/text v0.14.0
 	golang.org/x/time v0.0.0-20190308202827-9d24e82272b4
 	gopkg.in/gormigrate.v1 v1.6.0
 	gopkg.in/guregu/null.v2 v2.1.2 // indirect
